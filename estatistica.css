@@ -1,0 +1,98 @@
+/* Reset de estilos */
+* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+  }
+  
+  /* Estilos gerais */
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+  }
+  .logo {
+   font-weight: bold;
+   color: #ffffff;
+   font-family: "Pangolin", cursive;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Estilos do cabeçalho */
+  .panel-header {
+    display: flex;
+    align-items: center;
+    background-color: #3C86F4;
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+  }
+  
+  .panel-header .logo {
+    font-size: 36px;
+    font-weight: bold;
+    margin-right: 30px;
+  }
+  
+  .panel-header .main-nav ul {
+    list-style: none;
+    display: flex;
+  }
+  
+  .panel-header .main-nav li {
+    margin-left: 20px;
+  }
+  
+  .panel-header .main-nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+  }
+  
+  .panel-header .main-nav a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Estilos da tabela de estatísticas */
+  .statistics-table {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .statistics-table h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
+  }
+   
+  thead th {
+    background-color: #3C86F4;
+    color: #fff;
+  }
+   
+  tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+  }
+
+  h2 {
+    font-family: "Pangolin", cursive;
+  }
+   
