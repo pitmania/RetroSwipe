@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="sprints.css" />
+    <title>RetroSwipe | Sprints</title>
+  </head>
+  <body>
+    <div class="container">
+      <header class="panel-header">
+        <a href="/dashboard/sprints.html">
+          <h1 class="logo">Retro<span>Swipe</span></h1>
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="#">Painel</a></li>
+            <li><a href="#">Estatísticas</a></li>
+            <li><a href="#">Ranking</a></li>
+            <li><a href="#">Integração</a></li>
+            <li><a href="/" onclick="logout()">Logout</a></li>
+          </ul>
+        </nav>
+      </header>
+      <h2 class="title">Recentemente acessado:</h2>
+      <div class="recently-accessed-container"></div>
+
+      <h2 class="title">Todas Sprints:</h2>
+      <div class="sprints-container"></div>
+    </div>
+
+    <script type="module" src="sprints.js"></script>
+
+    <script type="module">
+      import { getSprints } from "../utils.js";
+
+      const { data: sprints } = await getSprints();
+
+      sprints.map(createSprint);
+
+      await createSprintButton();
+    </script>
+  </body>
+</html>

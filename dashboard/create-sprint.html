@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="create-sprint.css" />
+    <title>RetroSwipe | Sprints</title>
+  </head>
+  <body>
+    <div class="add-card-dialog">
+      <div class="add-card-dialog-content">
+        <div class="add-card-dialog-header">
+          <h2>Adicionar Card</h2>
+          <button
+            class="close-add-card-dialog"
+            onclick="triggerAddCardDialog(false)"
+          >
+            X
+          </button>
+        </div>
+        <div class="add-card-dialog-body">
+          <label for="card-name">Nome do Card:</label>
+          <input type="text" id="card-name" minlength="5" maxlength="64" />
+        </div>
+        <div class="add-card-dialog-footer">
+          <button class="add-card-button" onclick="createCard()">
+            Adicionar
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <header class="panel-header">
+        <a href="/dashboard/sprints.html">
+          <h1 class="logo">Retro<span>Swipe</span></h1>
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="#">Painel</a></li>
+            <li><a href="#">Estatísticas</a></li>
+            <li><a href="#">Ranking</a></li>
+            <li><a href="#">Integração</a></li>
+            <li><a href="/" onclick="logout()">Logout</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <div>
+        <label for="sprint-name" class="sprint-name">Nome da Sprint:</label>
+        <input type="text" id="sprint-name" minlength="5" maxlength="64" />
+      </div>
+
+      <h2>Cards:</h2>
+      <div class="cards-container">
+        <button class="add-card card" onclick="triggerAddCardDialog(true)">
+          +
+        </button>
+      </div>
+      <div class="members">
+        <h2>Membros:</h2>
+        <select
+          name="select users"
+          id="users"
+          aria-placeholder="Selecione os usuários"
+          placeholder="Selecione os usuários"
+          multiple
+          class="multiple-select"
+        ></select>
+      </div>
+      <button onclick="handleCreateSprintButton()" class="create-sprint-btn">
+        Criar
+      </button>
+    </div>
+    <script type="module">
+      import { getPublicUsers } from "../utils.js";
+
+      const { data: users } = await getPublicUsers();
+
+      const usersSelect = document.querySelector("#users");
+
+      users.forEach((user) => {
+        const option = document.createElement("option");
+        option.value = user.email;
+        option.innerText = user.email;
+        usersSelect.appendChild(option);
+      });
+    </script>
+    <script type="module" src="create-sprint.js"></script>
+  </body>
+</html>

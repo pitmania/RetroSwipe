@@ -1,0 +1,123 @@
+/* Reset de estilos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos gerais */
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+}
+
+.logo {
+  font-weight: bold;
+  color: #ffffff;
+  font-family: "Pangolin", cursive;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Estilos do cabeçalho */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3c86f4;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+
+  & .logo {
+    font-size: 36px;
+    font-weight: bold;
+    margin-right: 30px;
+  }
+
+  & .main-nav {
+    & ul {
+      list-style: none;
+      display: flex;
+    }
+
+    & li {
+      margin-left: 30px;
+    }
+
+    & a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 18px;
+    }
+
+    & a:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.sprints-container {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px 40px;
+}
+
+h2.title {
+  margin-top: 20px;
+}
+
+.recently-accessed-container {
+  margin: 20px 0px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px 40px;
+}
+
+.sprint-link {
+  text-decoration: none;
+}
+
+.sprint {
+  background-color: #95bfff;
+  padding: 50px;
+  width: 100%;
+  height: auto;
+
+  font: 20px "Pangolin", cursive;
+  color: white;
+  text-align: center;
+
+  border-radius: 10px;
+}
+
+.create-sprint-button {
+  background-color: #bfc4cb;
+  padding: 50px;
+  width: 100%;
+  height: auto;
+
+  font: 20px "Pangolin", cursive;
+  color: black;
+  text-align: center;
+
+  border-radius: 10px;
+  border: none;
+
+  cursor: pointer;
+}
+
+.last-accessed-sprint {
+  background-color: #3c86f4;
+}
