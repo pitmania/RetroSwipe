@@ -11,18 +11,32 @@ body {
   font-size: 16px;
   line-height: 1.5;
   color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo {
+  font-size: 60px;
   font-weight: bold;
-  color: #ffffff;
+  color: #3c86f4;
+  margin-bottom: 30px;
   font-family: "Pangolin", cursive;
+  /* font-family: "Press Start 2P", cursive; */
+  /* font-family: "Roboto", sans-serif; */
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+.logo > span {
+  color: #0569c5;
 }
 
 /* Estilos do cabeçalho */
@@ -59,42 +73,4 @@ body {
 
 .panel-header .main-nav a:hover {
   text-decoration: underline;
-}
-
-/* Estilos da tabela de estatísticas */
-.statistics-table {
-  margin-top: 40px;
-  text-align: center;
-}
-
-.statistics-table h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
-
-th,
-td {
-  padding: 12px;
-  border-bottom: 1px solid #ccc;
-}
-
-thead th {
-  background-color: #3c86f4;
-  color: #fff;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #f5f5f5;
-}
-
-h2 {
-  font-family: "Pangolin", cursive;
 }

@@ -1,6 +1,8 @@
-import { isScrumMaster } from "../utils.js";
+import { isScrumMaster } from "../../global/utils.js";
 
-function createSprint(sprint) {
+const { data: isUserScrumMaster } = await isScrumMaster();
+
+async function createSprint(sprint) {
   const lastAccessedSprintId =
     parseInt(window.localStorage.getItem("lastAccessedSprint")) || -1;
 
@@ -9,7 +11,10 @@ function createSprint(sprint) {
 
   const sprintLink = document.createElement("a");
   sprintLink.classList.add("sprint-link");
-  sprintLink.href = `single-sprint.html?sprintId=${sprint.id}`;
+
+  sprintLink.href = isUserScrumMaster
+    ? `/dashboard/cards-scrum-master/index.html?sprintId=${sprint.id}`
+    : `/dashboard/swiping/index.html?sprintId=${sprint.id}`;
 
   sprintElement.innerText = sprint.name;
 
@@ -28,15 +33,13 @@ function createSprint(sprint) {
 }
 
 async function createSprintButton() {
-  const { data: isUserScrumMaster } = await isScrumMaster();
-
   if (!isUserScrumMaster) return;
 
   const createSprintButton = document.createElement("button");
   createSprintButton.classList.add("create-sprint-button");
   createSprintButton.innerText = "Criar Sprint +";
   createSprintButton.addEventListener("click", () => {
-    window.location.href = "create-sprint.html";
+    window.location.href = "/dashboard/create-sprint";
   });
   const sprintsListsContainer = document.querySelector(".sprints-container");
   sprintsListsContainer.appendChild(createSprintButton);
@@ -44,3 +47,11 @@ async function createSprintButton() {
 
 window.createSprint = createSprint;
 window.createSprintButton = createSprintButton;
+
+import { getSprints } from "../../global/utils.js";
+
+const { data: sprints } = await getSprints();
+
+sprints.map(createSprint);
+
+await createSprintButton();

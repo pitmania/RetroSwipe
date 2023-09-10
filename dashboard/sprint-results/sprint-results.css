@@ -1,0 +1,399 @@
+/* Reset de estilos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos gerais */
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+.logo {
+  font-weight: bold;
+  color: #ffffff;
+  font-family: "Pangolin", cursive;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Estilos do cabeçalho */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3c86f4;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+
+  & .logo {
+    font-size: 36px;
+    font-weight: bold;
+    margin-right: 30px;
+  }
+
+  & .main-nav {
+    & ul {
+      list-style: none;
+      display: flex;
+    }
+
+    & li {
+      margin-left: 30px;
+    }
+
+    & a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 18px;
+    }
+
+    & a:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.sprint-name {
+  margin-top: 20px;
+}
+
+.cards-container {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 40px 75px;
+}
+
+.cards-container > section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px 20px;
+  position: relative;
+  grid-template-rows: max-content;
+}
+
+h3.section-title {
+  color: #070707;
+  text-align: center;
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.253);
+  font-family: Pangolin;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.cards-container > .needs-improvement::before {
+  /* divider */
+  content: "";
+  background-color: black;
+  /* not occupy columns grid */
+  grid-column: 1 / -1;
+  position: absolute;
+  left: -35px;
+  top: -20px;
+  height: calc(40px + 100%);
+  width: 1px;
+}
+
+.cards-container > .needs-improvement::after {
+  /* divider */
+  content: "";
+  background-color: black;
+  /* not occupy columns grid */
+  grid-column: 1 / -1;
+  position: absolute;
+  right: -35px;
+  top: -20px;
+  height: calc(40px + 100%);
+  width: 1px;
+}
+
+.card {
+  background-color: #95bfff;
+  padding: 15px 20px;
+  width: 100%;
+  height: 145px;
+
+  font: 16px "Pangolin", cursive;
+  color: black;
+  text-align: center;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.card-header {
+  background-color: #d9d9d9;
+  padding: 0px 20px;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  height: 115px;
+  justify-content: center;
+  align-items: center;
+}
+
+.likes {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: absolute;
+  bottom: 0px;
+  right: 50px;
+  gap: 5px;
+}
+
+.dislikes {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  gap: 5px;
+}
+
+.likes-btn {
+  gap: 0px 5px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 7px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dislikes-btn {
+  gap: 0px 5px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 7px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btns-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0px 5px;
+}
+
+.cards-container .going-well .card {
+  background-color: #71d07b;
+}
+
+.cards-container .needs-improvement .card {
+  background-color: #eaed73;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  filter: blur(3px);
+  z-index: -1;
+}
+
+label.sprint-name {
+  display: block;
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+h2 {
+  display: block;
+  font-size: 20px;
+  margin: 10px 0;
+  font-weight: normal;
+  overflow-wrap: anywhere;
+}
+
+button.add-card {
+  background-color: #3c86f4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  padding: 10px 20px;
+  height: 145px;
+  cursor: pointer;
+}
+
+.add-card-dialog {
+  width: 400px;
+  min-height: 250px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px 20px;
+  display: none;
+  z-index: 999;
+
+  & h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  & .add-card-dialog-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  & .add-card-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  & .add-card-dialog-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    margin-bottom: 10px;
+  }
+
+  & .add-card-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  & .close-add-card-dialog {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  & .add-card-button {
+    background-color: #3c86f4;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+}
+
+.comment {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+  background-color: white;
+  padding: 15px 8px;
+  border-radius: 10px;
+  padding-left: 30px;
+}
+
+.comment-text {
+  font-size: 16px;
+  font-family: "Pangolin", cursive;
+  color: black;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.liked,
+.disliked {
+  background-color: #fafafa;
+  border-radius: 50%;
+  /* shadow*/
+  border: 1px solid #d9d9d9;
+}
+
+span.like {
+  background-color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 20px;
+  position: absolute;
+  left: -15px;
+}
+
+span.dislike {
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 20px;
+  position: absolute;
+  left: -15px;
+}
+
+span.dislike svg,
+span.like svg {
+  fill: white;
+}
+
+.comment-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0px 5px;
+}

@@ -1,4 +1,4 @@
-import { createSprint, logout } from "../utils.js";
+import { createSprint, logout } from "../../global/utils.js";
 
 function triggerAddCardDialog(bool) {
   const addCardDialog = document.querySelector(".add-card-dialog");
@@ -30,7 +30,7 @@ function createCard() {
 async function handleCreateSprintButton() {
   const sprintName = document.querySelector("#sprint-name").value;
   const cards = document.querySelectorAll(".card");
-  const users = document.querySelector("#users");
+  const users = document.querySelector("#users").selectedOptions;
   const usersValuesSelected = Array.from(users).map((el) => el.value);
 
   const cardsArray = [];
@@ -41,29 +41,24 @@ async function handleCreateSprintButton() {
     cardsArray.push(card.innerText);
   });
 
-  // check if input is valid
-  if (sprintName.length < 5 || sprintName.length > 64) {
-    alert("Nome da sprint deve ter entre 5 e 64 caracteres");
-    return;
+  if (!sprintName) return alert("Please enter a sprint name");
+
+  if (!cardsArray.length) return alert("Please add at least one card");
+
+  if (!usersValuesSelected.length) return alert("Please select at least one user");
+
+  try {
+    const { data: sprintId } = await createSprint(
+      sprintName,
+      cardsArray,
+      usersValuesSelected
+    );
+
+    window.location.href = `/dashboard/cards-scrum-master/index.html?sprintId=${sprintId}`;
+  } catch (error) {
+    alert(error.message);
   }
 
-  if (cardsArray.length < 1) {
-    alert("Sprint deve ter pelo menos 1 card");
-    return;
-  }
-
-  if (users.length < 1) {
-    alert("Sprint deve ter pelo menos 1 usuário");
-    return;
-  }
-
-  const { data: sprintId } = await createSprint(
-    sprintName,
-    cardsArray,
-    usersValuesSelected
-  );
-
-  window.location.href = `/dashboard/single-sprint.html?sprintId=${sprintId}`;
 }
 
 window.triggerAddCardDialog = triggerAddCardDialog;

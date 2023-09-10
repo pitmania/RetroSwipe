@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="sprints.css" />
+    <title>RetroSwipe | Sprints</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pangolin&family=Press+Start+2P&family=Roboto:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" src="sprints.js" async></script>
+    <script type="module">
+      import { logout } from "../../global/utils.js";
+      window.logout = logout;
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <header class="panel-header">
+        <a href="/dashboard/sprints">
+          <h1 class="logo">Retro<span>Swipe</span></h1>
+        </a>
+        <nav class="main-nav">
+          <ul>
+            <li><a href="/dashboard/sprints">Dashboard</a></li>
+            <li><a href="/statistics/">Statistics</a></li>
+            <li><a href="#">Ranking</a></li>
+            <li><a onclick="logout()" href="#">Logout</a></li>
+          </ul>
+        </nav>
+      </header>
+      <h2 class="title">Recently accessed:</h2>
+      <div class="recently-accessed-container"></div>
+
+      <h2 class="title">All sprints:</h2>
+      <div class="sprints-container"></div>
+    </div>
+  </body>
+</html>

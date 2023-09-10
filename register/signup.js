@@ -1,4 +1,4 @@
-import { register } from "../utils.js";
+import { register } from "../global/utils.js";
 
 const form = document.querySelector("form");
 
@@ -13,11 +13,11 @@ form.addEventListener("submit", async (event) => {
       return;
     }
 
-    const { data } = await register(email.value, password.value, repeat.value);
+    const { data } = await register(email.value, password.value);
 
     if (data) {
       alert("Register successful!");
-      window.location.href = "/index.html";
+      window.location.href = "/";
     }
   } catch (error) {
     alert(error.message);

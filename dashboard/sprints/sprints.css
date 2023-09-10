@@ -78,6 +78,13 @@ h2.title {
   margin-top: 20px;
 }
 
+.cards-container {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px 40px;
+}
+
 .recently-accessed-container {
   margin: 20px 0px;
   display: grid;

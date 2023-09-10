@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="create-sprint.css" />
     <title>RetroSwipe | Sprints</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pangolin&family=Press+Start+2P&family=Roboto:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" src="create-sprint.js" async></script>
+    <script type="module">
+      import { logout } from "../../global/utils.js";
+      window.logout = logout;
+    </script>
   </head>
   <body>
     <div class="add-card-dialog">
       <div class="add-card-dialog-content">
         <div class="add-card-dialog-header">
-          <h2>Adicionar Card</h2>
+          <h2>Add Card</h2>
           <button
             class="close-add-card-dialog"
             onclick="triggerAddCardDialog(false)"
@@ -19,34 +28,33 @@
           </button>
         </div>
         <div class="add-card-dialog-body">
-          <label for="card-name">Nome do Card:</label>
+          <label for="card-name">Name of the Card:</label>
           <input type="text" id="card-name" minlength="5" maxlength="64" />
         </div>
         <div class="add-card-dialog-footer">
           <button class="add-card-button" onclick="createCard()">
-            Adicionar
+            Add card
           </button>
         </div>
       </div>
     </div>
     <div class="container">
       <header class="panel-header">
-        <a href="/dashboard/sprints.html">
+        <a href="/dashboard/sprints">
           <h1 class="logo">Retro<span>Swipe</span></h1>
         </a>
         <nav class="main-nav">
           <ul>
-            <li><a href="#">Painel</a></li>
-            <li><a href="#">Estatísticas</a></li>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Statistics</a></li>
             <li><a href="#">Ranking</a></li>
-            <li><a href="#">Integração</a></li>
-            <li><a href="/" onclick="logout()">Logout</a></li>
+            <li><a onclick="logout()" href="#">Logout</a></li>
           </ul>
         </nav>
       </header>
 
       <div>
-        <label for="sprint-name" class="sprint-name">Nome da Sprint:</label>
+        <label for="sprint-name" class="sprint-name">Name of sprint:</label>
         <input type="text" id="sprint-name" minlength="5" maxlength="64" />
       </div>
 
@@ -57,7 +65,7 @@
         </button>
       </div>
       <div class="members">
-        <h2>Membros:</h2>
+        <h2>Members:</h2>
         <select
           name="select users"
           id="users"
@@ -68,11 +76,11 @@
         ></select>
       </div>
       <button onclick="handleCreateSprintButton()" class="create-sprint-btn">
-        Criar
+        Create
       </button>
     </div>
     <script type="module">
-      import { getPublicUsers } from "../utils.js";
+      import { getPublicUsers } from "../../global/utils.js";
 
       const { data: users } = await getPublicUsers();
 
@@ -85,6 +93,5 @@
         usersSelect.appendChild(option);
       });
     </script>
-    <script type="module" src="create-sprint.js"></script>
   </body>
 </html>
