@@ -121,20 +121,52 @@ export async function getSprints() {
 
   return { data };
 }
+export async function getSprintsWithId(projectId) {
+  const { data: isSM, session } = await isScrumMaster();
 
+  if (isSM) {
+    let { error, data } = await supabase.from("sprint").select().eq("project_id", projectId);
+
+    if (error) throw new Error(error.message);
+
+    return { data };
+  }
+
+  const userId = session.data.session.user.id;
+
+  let { error, data: sprintIds } = await supabase
+    .from("sprint_user")
+    .select()
+    .eq("user_id", userId);
+
+  if (error) throw new Error(error.message);
+
+  sprintIds = sprintIds.map((sprint) => sprint.sprint_id);
+
+  const { error: sprintError, data } = await supabase
+    .from("sprint")
+    .select()
+    .eq("project_id", projectId)
+    .in("id", sprintIds);
+
+  if (sprintError) throw new Error(sprintError.message);
+
+  return { data };
+}
 /**
  * @param {string} sprintName - The sprint's name
  * @param {string[]} cards - The cards' names
  * @param {string[]} users - The users' emails
+ * @param {string} projectId - The project's id
  * @returns {Promise<string>} - The sprint's id
  * @throws {Error} - The error thrown by Supabase client
  * @description Creates a new sprint
  */
 
-export async function createSprint(sprintName, cards, users) {
+export async function createSprint(sprintName, cards, users, projectId) {
   const { data: sprint, error } = await supabase
     .from("sprint")
-    .insert({ name: sprintName })
+    .insert({ name: sprintName, project_id: projectId })
     .select("id");
 
   if (error) throw new Error(error.message);
@@ -158,7 +190,7 @@ export async function createSprint(sprintName, cards, users) {
 
   const { error: cardCreateError } = await supabase
     .from("card")
-    .insert(cards.map((card) => ({ sprint_id: sprintId, title: card })));
+    .insert(cards.map((card) => ({ sprint_id: sprintId, title: card.name, description: card.description, card_type: 'normal' })));
 
   if (cardCreateError) throw new Error(cardCreateError.message);
 
@@ -358,6 +390,64 @@ export async function unsubscribeChannel(channel) {
   await supabase.removeSubscription(channel);
 }
 
+// * STATISTICS MANAGEMENT
+
+export async function getScoresFromSprint(sprintId) {
+  let { data, error } = await supabase
+    .rpc('get_scores_2', {
+      spid: sprintId
+    })
+
+  if (error) throw new Error(error.message);
+
+  return { data };
+}
+
+export async function getScoresFromProject(projectId) {
+  let { data, error } = await supabase
+    .rpc('get_project_scores', {
+      pid: projectId
+    })
+
+  if (error) throw new Error(error.message);
+
+  return { data };
+
+}
+
+export async function getStatisticsFromAllSprints() {
+  const { data, error } = await supabase
+    .from("sprint_summary")
+    .select("*")
+
+  if (error) throw new Error(error.message);
+
+  return { data };
+}
+
+export async function getStatisticsFromOneSprint(sprintId) {
+  const { data, error } = await supabase
+    .from("sprint_summary")
+    .select("*")
+    .eq("id", sprintId);
+
+  if (error) throw new Error(error.message);
+
+  return { data };
+}
+
+export async function getMostLikedCardsFromSprint(sprintId) {
+  const { data, error } = await supabase
+    .from("card_likes_view")
+    .select("*")
+    .eq("sprint_id", sprintId)
+    .order("like_proportion", { ascending: false })
+
+  if (error) throw new Error(error.message);
+
+  return { data };
+}
+
 // * UTILITY FUNCTIONS
 export async function getAllPlayersThatShouldVote(sprintId) {
   const { data, error } = await supabase
@@ -369,3 +459,61 @@ export async function getAllPlayersThatShouldVote(sprintId) {
 
   return { data };
 }
+
+// * PROJECTS MANAGEMENT
+
+
+export async function createProject(projectTitle) {
+  const { data, error } = await supabase
+    .from("project")
+    .insert({ title: projectTitle })
+    .single()
+    .limit(1)
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  return { data };
+}
+
+export async function getProjects() {
+  const { data, error } = await supabase
+    .from("project")
+    .select("*");
+
+  if (error) throw new Error(error.message);
+
+  return { data };
+}
+
+export async function getNameFromProjectId(projectId) {
+  const { data, error } = await supabase
+    .from("project")
+    .select("title")
+    .single()
+    .limit(1)
+    .eq("id", projectId);
+
+  if (error) throw new Error(error.message);
+
+  return { data };
+}
+
+export async function getEmailFromLoggedInUser() {
+  const session = await getSession();
+
+  if (!session) return (window.location.href = "/");
+
+  const userId = session.data.session.user.id;
+
+  const { data, error } = await supabase
+    .from("users")
+    .select("email")
+    .eq("id", userId)
+    .single()
+    .limit(1);
+
+  if (error) throw new Error(error.message);
+
+  return { data: data.email };
+} 

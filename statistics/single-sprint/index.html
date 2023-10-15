@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pangolin&family=Press+Start+2P&family=Roboto:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>RetroSwipe - Statistics</title>
+    <link rel="stylesheet" href="./single-sprint-statistics.css" />
+    <script type="module" src="./single-sprint-statistics.js" async></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <header class="panel-header">
+        <a href="/dashboard/projects">
+          <h1 class="logo">Retro<span>Swipe</span></h1>
+        </a>
+
+        <nav class="main-nav">
+          <ul>
+            <li><a href="/dashboard/projects">Dashboard</a></li>
+            <li><a href="/statistics">Statistics</a></li>
+            <li><a onclick="logout()" href="#">Logout</a></li>
+          </ul>
+        </nav>
+      </header>
+      <h2 class="sprint-name" style="padding: 20px"></h2>
+      <main class="main-container">
+        <section class="cards-container">
+          <div class="card blue"></div>
+          <div class="card blue-light"></div>
+          <div class="card green"></div>
+          <div class="card red"></div>
+          <div class="card green-light"></div>
+          <div class="card orange"></div>
+          <div style="position: relative">
+            <div
+              class="card green-light"
+              id="most-liked-card"
+              onmouseover="showTooltip()"
+              onmouseout="hideTooltip()"
+            ></div>
+            <div id="tooltip" class="tooltip"></div>
+          </div>
+          <div style="position: relative">
+            <div
+              id="most-disliked-card"
+              class="card orange"
+              onmouseover="showDislikeTooltip()"
+              onmouseout="hideDislikeTooltip()"
+            ></div>
+            <div id="dislike-tooltip" class="tooltip"></div>
+          </div>
+        </section>
+        <div class="chart-container">
+          <canvas id="sprint-chart"></canvas>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module">
+      import {
+        logout,
+        getStatisticsFromOneSprint,
+        getSprintName,
+        getMostLikedCardsFromSprint,
+      } from "../../global/utils.js";
+      const ctx = document.getElementById("sprint-chart").getContext("2d");
+      const urlParams = new URLSearchParams(window.location.search);
+      const sprintId = urlParams.get("sprintId");
+      let { data: sprintName } = await getSprintName(sprintId);
+      sprintName = sprintName[0].name;
+      // card blue should have the content of # of cards
+      // card blue-light should have the content of # of members
+      // card green should have the content of # of upvotes
+      // card red should have the content of # of downvotes
+      // card green-light should have the content of % of upvotes
+      // card orange should have the content of % of downvotes
+
+      getStatisticsFromOneSprint(sprintId).then(({ data: statistics }) => {
+        statistics = statistics[0];
+        console.log(statistics);
+
+        statistics.percentage_likes = statistics.percentage_likes.toFixed(2);
+        statistics.percentage_dislikes = 100 - statistics.percentage_likes;
+
+        document.querySelector(
+          ".card.blue"
+        ).innerHTML = `<h2>Cards <br /> ${statistics.card_count}</h2>`;
+        document.querySelector(
+          ".card.blue-light"
+        ).innerHTML = `<h2>Members <br /> ${statistics.member_count}</h2>`;
+        document.querySelector(
+          ".card.green"
+        ).innerHTML = `<h2>Upvotes <br /> ${statistics.total_likes}</h2>`;
+        document.querySelector(
+          ".card.red"
+        ).innerHTML = `<h2>Downvotes <br /> ${statistics.total_dislikes}</h2>`;
+        document.querySelector(
+          ".card.green-light"
+        ).innerHTML = `<h2>% Upvotes <br /> ${statistics.percentage_likes}%</h2>`;
+        document.querySelector(
+          ".card.orange"
+        ).innerHTML = `<h2>% Downvotes <br /> ${statistics.percentage_dislikes}%</h2>`;
+        document.querySelector(
+          ".sprint-name"
+        ).innerHTML = `Retro<span>Swipe</span> - ${sprintName}`;
+
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: [
+              "# of Cards",
+              "# of Members",
+              "# of Upvotes",
+              "# of Downvotes",
+              "% of Upvotes",
+              "% of Downvotes",
+            ],
+            datasets: [
+              {
+                label: "",
+                barThickness: 35,
+                maxBarThickness: 35,
+                minBarLength: 2,
+                data: [
+                  statistics.card_count,
+                  statistics.member_count,
+                  statistics.total_likes,
+                  statistics.total_dislikes,
+                  statistics.percentage_likes,
+                  statistics.percentage_dislikes,
+                ],
+                borderWidth: 1,
+                backgroundColor: [
+                  "rgba(77, 212, 255, 1)",
+                  "rgba(143, 234, 223, 1)",
+                  "rgba(51, 245, 41, 1)",
+                  "rgba(245, 74, 64, 1)",
+                  "rgba(156, 245, 31, 1)",
+                  "rgba(222, 128, 6, 1)",
+                ],
+              },
+            ],
+          },
+
+          options: {
+            indexAxis: "y",
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: "Sprint statistics",
+              },
+              legend: {
+                display: false,
+              },
+            },
+          },
+        });
+      });
+
+      const { data: mostLikedCardOnSprint } = await getMostLikedCardsFromSprint(
+        sprintId
+      );
+
+      // pick the most liked one (can be more than one)
+      const mostLikedCards = mostLikedCardOnSprint.filter(
+        (card) =>
+          card.like_proportion === mostLikedCardOnSprint[0].like_proportion
+      );
+
+      const mostDislikedCard = mostLikedCardOnSprint.filter(
+        (card) =>
+          card.like_proportion ===
+          mostLikedCardOnSprint[mostLikedCardOnSprint.length - 1]
+            .like_proportion
+      );
+
+      console.log(mostLikedCards);
+
+      const mostLikedCardsContent = mostLikedCards
+        .map((card) => `<li>${card.title}</li>`)
+        .join("");
+
+      const mostDislikedCardsContent = mostDislikedCard
+        .map((card) => `<li>${card.title}</li>`)
+        .join("");
+
+      const tooltipContent = document.querySelector("#tooltip");
+      const dislikeTooltipContent = document.querySelector("#dislike-tooltip");
+
+      dislikeTooltipContent.innerHTML = `<b>Cards:</b> ${mostDislikedCardsContent}`;
+      tooltipContent.innerHTML = `<b>Cards:</b> ${mostLikedCardsContent}`;
+
+      const mostLikedCardElement = document.querySelector("#most-liked-card");
+
+      mostLikedCardElement.innerHTML += `<h2>Most liked card <br/>${(
+        mostLikedCards[0].like_proportion * 100
+      ).toFixed(2)}%<h2/>`;
+
+      const mostDislikedCardElement = document.querySelector(
+        "#most-disliked-card"
+      );
+
+      mostDislikedCardElement.innerHTML += `<h2>Most disliked card <br/>${(
+        100 -
+        mostDislikedCard[0].like_proportion * 100
+      ).toFixed(2)}%<h2/>`;
+
+      // add link to the card
+      const cardCountElement = document.querySelector(".card.blue");
+      cardCountElement.addEventListener("click", () => {
+        window.location.href = `/dashboard/sprint-results/index.html?sprintId=${sprintId}`;
+      });
+    </script>
+  </body>
+</html>

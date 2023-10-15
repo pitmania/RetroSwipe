@@ -27,8 +27,6 @@ a {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  position: relative;
-  z-index: 0;
 }
 
 /* Estilos do cabeçalho */
@@ -69,63 +67,66 @@ a {
   }
 }
 
-.background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  filter: blur(3px);
-  z-index: -1;
+.sprints-container {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px 40px;
 }
 
-label.sprint-name {
-  display: block;
-  font-size: 20px;
-  margin: 10px 0;
+h2.title {
+  margin-top: 20px;
 }
 
-input {
+.cards-container {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px 40px;
+}
+
+.sprint-link {
+  text-decoration: none;
+}
+
+.sprint {
+  background-color: #95bfff;
+  padding: 50px;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  font-size: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  height: auto;
+
+  font: 20px "Pangolin", cursive;
+  color: white;
+  text-align: center;
+
+  border-radius: 10px;
 }
 
-textarea {
+.add-project-button {
+  display: none;
+}
+
+.create-sprint-button {
+  background-color: #bfc4cb;
+  padding: 50px;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  font-size: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  height: auto;
 
-  resize: vertical;
-  max-height: 250px;
-}
+  font: 20px "Pangolin", cursive;
+  color: black;
+  text-align: center;
 
-h2 {
-  display: block;
-  font-size: 20px;
-  margin: 10px 0;
-  font-weight: normal;
-}
-
-button.add-card {
-  background-color: #3c86f4;
-  color: #fff;
+  border-radius: 10px;
   border: none;
-  border-radius: 8px;
-  font-size: 20px;
 
   cursor: pointer;
 }
 
-.add-card-dialog {
+.last-accessed-sprint {
+  background-color: #3c86f4;
+}
+
+.add-project-dialog {
   width: 400px;
   min-height: 250px;
   background-color: #fff;
@@ -145,20 +146,20 @@ button.add-card {
     font-weight: bold;
   }
 
-  & .add-card-dialog-content {
+  & .add-project-dialog-content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
   }
 
-  & .add-card-dialog-header {
+  & .add-project-dialog-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  & .add-card-dialog-body {
+  & .add-project-dialog-body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -166,19 +167,19 @@ button.add-card {
     margin-bottom: 10px;
   }
 
-  & .add-card-dialog-footer {
+  & .add-project-dialog-footer {
     display: flex;
     justify-content: flex-end;
   }
 
-  & .close-add-card-dialog {
+  & .close-add-project-dialog {
     background-color: transparent;
     border: none;
     font-size: 20px;
     cursor: pointer;
   }
 
-  & .add-card-button {
+  & .add-project-button {
     background-color: #3c86f4;
     color: #fff;
     border: none;
@@ -187,55 +188,26 @@ button.add-card {
     font-size: 20px;
     cursor: pointer;
   }
+
+  & input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  & input:focus {
+    outline: none;
+    border-color: #3c86f4;
+  }
 }
 
-.cards-container {
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 20px 40px;
-}
-
-.card-link {
-  text-decoration: none;
-}
-
-.card {
-  background-color: #95bfff;
-  padding: 50px;
-  width: 100%;
-  height: auto;
-
-  font: 20px "Pangolin", cursive;
-  color: white;
-  text-align: center;
-
-  border-radius: 10px;
-}
-
-.cards-and-members-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-select.multiple-select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  font-size: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  height: 100%;
-}
-
-button.create-sprint-btn {
+.submit {
   background-color: #3c86f4;
   color: #fff;
   border: none;
+  padding: 10px 20px;
   border-radius: 8px;
   font-size: 20px;
   cursor: pointer;
-  padding: 15px 30px;
-  float: right;
 }

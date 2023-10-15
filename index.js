@@ -4,7 +4,7 @@ async function redirectOnLogin() {
   try {
     const { data: isLoggedIn } = await getSession();
 
-    if (isLoggedIn) window.location.href = "/dashboard/sprints";
+    if (isLoggedIn) window.location.href = "/dashboard/projects";
   } catch (error) {
     console.error(error);
   }
@@ -20,7 +20,7 @@ form.addEventListener("submit", async (event) => {
 
     const { data } = await login(email.value, password.value);
 
-    if (data) window.location.href = "/dashboard/sprints"; // redirect after successful login
+    if (data) window.location.href = "/dashboard/projects"; // redirect after successful login
   } catch (error) {
     console.error(error);
   }

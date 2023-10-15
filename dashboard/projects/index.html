@@ -3,19 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="sprints.css" />
-    <title>RetroSwipe | Sprints</title>
+    <link rel="stylesheet" href="ffolders.css" />
+    <link rel="stylesheet" href="projects.css" />
+    <title>RetroSwipe | Projects</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Pangolin&family=Press+Start+2P&family=Roboto:wght@300;500;700&display=swap"
       rel="stylesheet"
     />
-    <script type="module" src="sprints.js" async></script>
+    <script type="module" src="projects.js" async></script>
     <script type="module">
       import { logout } from "../../global/utils.js";
       window.logout = logout;
     </script>
   </head>
   <body>
+    <div class="add-project-dialog"></div>
     <div class="container">
       <header class="panel-header">
         <a href="/dashboard/projects">
@@ -25,17 +27,25 @@
           <ul>
             <li><a href="/dashboard/projects">Dashboard</a></li>
             <li><a href="/statistics/">Statistics</a></li>
+             
             <li><a onclick="logout()" href="#">Logout</a></li>
           </ul>
         </nav>
       </header>
-      <button class="see-ranking-btn" onclick="redirectToRanking()">
-        See Project Ranking
-      </button>
-      <h2 class="title">Recently accessed:</h2>
-      <div class="recently-accessed-container"></div>
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          padding: 10px 0;
+        "
+      >
+        <h2 class="title">All Projects:</h2>
+        <button class="submit" onclick="triggerAddProjectDialog(true)">
+          Create new project +
+        </button>
+      </div>
 
-      <h2 class="title">All sprints:</h2>
       <div class="sprints-container"></div>
     </div>
   </body>

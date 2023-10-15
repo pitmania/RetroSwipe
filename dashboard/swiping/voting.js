@@ -1,10 +1,10 @@
 import {
-  getAllPlayersThatShouldVote,
+  createComment,
   getAllNormalCardsFromSprint,
+  getAllPlayersThatShouldVote,
   getCardsFromSprintToVote,
   likeOrDislikeCard,
-  subscribeToLike,
-  createComment
+  subscribeToLike
 } from "../../global/utils.js";
 
 const sprintId = new URLSearchParams(window.location.search).get("sprintId");
@@ -22,19 +22,10 @@ cards.forEach((card) => {
   const cardElement = document.createElement("div");
   cardElement.classList.add("card");
 
-  const likes = card.like_and_dislike.reduce((acc, like) => {
-    if (like.is_like) acc++;
-
-    return acc;
-  }, 0);
-
-  const dislikes = card.like_and_dislike.length - likes;
-
   cardElement.innerHTML = `
     <div class="card-header" data-card-id="">
       <h2 class="card-title"></h2>
-      <div class="likes">likes: </div>
-      <div class="dislikes">dislikes: </div>
+      <div class="description"></div>
       <div style="display: flex; flex-direction: column; align-items: center;">
       <label for="comment">Comment</label>
       <textarea class="comment" id="comment" placeholder="A comment about this card"></textarea>
@@ -44,8 +35,7 @@ cards.forEach((card) => {
 
   cardElement.querySelector(".card-header").dataset.cardId = card.id;
   cardElement.querySelector(".card-title").innerText = card.title;
-  cardElement.querySelector(".likes").innerText += likes;
-  cardElement.querySelector(".dislikes").innerText += dislikes;
+  cardElement.querySelector(".description").innerText = card.description;
 
 
   cardsContainer.appendChild(cardElement);

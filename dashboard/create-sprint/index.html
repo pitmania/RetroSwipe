@@ -31,6 +31,14 @@
           <label for="card-name">Name of the Card:</label>
           <input type="text" id="card-name" minlength="5" maxlength="64" />
         </div>
+        <div class="add-card-dialog-body">
+          <label for="card-description">Description of the card:</label>
+          <textarea
+            type="text"
+            id="card-description"
+            maxlength="255"
+          ></textarea>
+        </div>
         <div class="add-card-dialog-footer">
           <button class="add-card-button" onclick="createCard()">
             Add card
@@ -40,7 +48,7 @@
     </div>
     <div class="container">
       <header class="panel-header">
-        <a href="/dashboard/sprints">
+        <a href="/dashboard/projects">
           <h1 class="logo">Retro<span>Swipe</span></h1>
         </a>
         <nav class="main-nav">

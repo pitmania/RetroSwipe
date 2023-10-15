@@ -132,7 +132,7 @@ h3.section-title {
 .card {
   background-color: #95bfff;
   padding: 15px 20px;
-  width: 100%;
+  width: 155px;
   height: 145px;
 
   font: 16px "Pangolin", cursive;
@@ -146,7 +146,7 @@ h3.section-title {
 
 .card-header {
   background-color: #d9d9d9;
-  padding: 0px 20px;
+  padding: 0px 8px;
   border-radius: 10px;
   position: relative;
   display: flex;
@@ -246,7 +246,8 @@ h2 {
   font-size: 20px;
   margin: 10px 0;
   font-weight: normal;
-  overflow-wrap: anywhere;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 button.add-card {
@@ -256,6 +257,8 @@ button.add-card {
   border-radius: 8px;
   font-size: 20px;
   padding: 10px 20px;
+
+  width: 155px;
   height: 145px;
   cursor: pointer;
 }
@@ -322,6 +325,18 @@ button.add-card {
     font-size: 20px;
     cursor: pointer;
   }
+}
+
+textarea.description {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  resize: vertical;
+  max-height: 250px;
 }
 
 .comment {
@@ -396,4 +411,14 @@ span.like svg {
   align-items: center;
   justify-content: center;
   gap: 0px 5px;
+}
+
+.see-ranking-btn {
+  background-color: #3c86f4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
 }

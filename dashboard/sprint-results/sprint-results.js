@@ -1,11 +1,11 @@
 import {
   createNewIdeaCard,
   getCardsFromSprint,
-  subscribeToCards,
-  readComments,
-  likeOrDislikeComment,
+  getSession,
   getSprintName,
-  getSession
+  likeOrDislikeComment,
+  readComments,
+  subscribeToCards
 } from "../../global/utils.js";
 
 const sprintId = new URLSearchParams(window.location.search).get("sprintId");
@@ -77,12 +77,12 @@ cards.forEach((card) => {
     if (likes > dislikes) {
       goingWell.appendChild(cardElement);
       cardElement.addEventListener("click", () => {
-        openCommentSection(card.id, "green");
+        openCommentSection(card, "green");
       });
     } else {
       needsImprovement.appendChild(cardElement);
       cardElement.addEventListener("click", () => {
-        openCommentSection(card.id, "yellow");
+        openCommentSection(card, "yellow");
       });
     }
   }
@@ -90,17 +90,22 @@ cards.forEach((card) => {
   if (card.card_type === "idea_to_try") {
     addCardWithoutLikes(cardElement, card);
     ideasToTry.appendChild(cardElement);
+    cardElement.addEventListener("click", () => {
+      openCommentSection(card, "blue");
+    });
   }
 });
 
-async function openCommentSection(cardId, color = "white") {
+async function openCommentSection(card, color = "white") {
+  const cardId = card.id;
   const { data: comments } = await readComments(cardId);
   const { data: session } = await getSession();
 
   const colors = {
     green: "#71D07B",
     yellow: "#EAED73",
-    white: "#FFFFFF"
+    white: "#FFFFFF",
+    blue: "#95BFFF"
   }
 
   const commentSection = document.querySelector(".add-card-dialog");
@@ -115,13 +120,16 @@ async function openCommentSection(cardId, color = "white") {
 
   commentSection.innerHTML = `
     <div class="comment-section-header" style="display: flex; justify-content: space-between;">
-      <h2>Comments</h2>
+      <h2>${sanitizeHTML(card.title)}</h2>
       <button onclick="closeCommentSection()" class="close-add-card-dialog">X</button>
     </div>
     <div class="comment-section-body">
+      ${card.description.length > 0 ? `<div style="margin-bottom: 15px; width: 100%; background-color: white; border-radius: 8px; padding: 15px;">
+      <h4>Description:</h4>
+      <p style="word-wrap: break-word;">${sanitizeHTML(card.description)}</p>
+      </div>` : ""}
       <div class="comments">
         ${comments.map(comment => {
-    comment.comment = sanitizeHTML(comment.comment);
     const userLikedTheCard = comment.like_and_dislike[0].is_like;
     return (`
           <div class="comment" data-comment-id="${comment.id}">
@@ -133,7 +141,7 @@ async function openCommentSection(cardId, color = "white") {
           <span class="dislike">
             ${thumbsDown}
           </span>`}
-            <p class="comment-content">${comment.comment}</p>
+            <p class="comment-content">${sanitizeHTML(comment.comment)}</p>
             </div>
             <div class="btns-container">
             <div class="likes-btn ${hadCommentAlreadyLiked(comment.like_and_dislike_on_comments) ? "liked" : ""}" onclick="likeComment(${comment.id})">${thumbsUp} ${likeCount(comment.like_and_dislike_on_comments)}</div>
@@ -239,8 +247,7 @@ async function createCard() {
   await createNewIdeaCard(
     sprintId,
     document.querySelector("#card-name").value,
-    ""
-    // document.querySelector("#card-description").value
+    document.querySelector("#card-description").value
   );
 }
 
@@ -265,6 +272,8 @@ function triggerAddCardDialog(bool) {
         <div class="add-card-dialog-body">
           <label for="card-name">Nome do Card:</label>
           <input type="text" id="card-name" minlength="5" maxlength="64" />
+          <label for="card-description">Descrição do Card:</label>
+          <textarea type="text" id="card-description" minlength="5" maxlength="255" class="description"></textarea>
         </div>
         <div class="add-card-dialog-footer">
           <button class="add-card-button" onclick="createCard()">
@@ -279,6 +288,11 @@ function triggerAddCardDialog(bool) {
   }
 }
 
+function redirectToRanking() {
+  window.location.href = `/ranking/index.html?sprintId=${sprintId}`;
+}
+
+window.redirectToRanking = redirectToRanking;
 window.triggerAddCardDialog = triggerAddCardDialog;
 window.createCard = createCard;
 window.openCommentSection = openCommentSection;

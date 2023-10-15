@@ -1,6 +1,7 @@
 import { isScrumMaster } from "../../global/utils.js";
 
 const { data: isUserScrumMaster } = await isScrumMaster();
+const projectId = new URLSearchParams(window.location.search).get("projectId");
 
 async function createSprint(sprint) {
   const lastAccessedSprintId =
@@ -32,14 +33,20 @@ async function createSprint(sprint) {
   sprintLink.appendChild(sprintElement);
 }
 
+function redirectToRanking() {
+  window.location.href = `/ranking/index.html?projectId=${projectId}`;
+}
+
+window.redirectToRanking = redirectToRanking;
+
 async function createSprintButton() {
   if (!isUserScrumMaster) return;
 
   const createSprintButton = document.createElement("button");
   createSprintButton.classList.add("create-sprint-button");
-  createSprintButton.innerText = "Criar Sprint +";
+  createSprintButton.innerText = `Criar Sprint +`;
   createSprintButton.addEventListener("click", () => {
-    window.location.href = "/dashboard/create-sprint";
+    window.location.href = "/dashboard/create-sprint/index.html?projectId=" + projectId;
   });
   const sprintsListsContainer = document.querySelector(".sprints-container");
   sprintsListsContainer.appendChild(createSprintButton);
@@ -48,9 +55,9 @@ async function createSprintButton() {
 window.createSprint = createSprint;
 window.createSprintButton = createSprintButton;
 
-import { getSprints } from "../../global/utils.js";
+import { getSprintsWithId } from "../../global/utils.js";
 
-const { data: sprints } = await getSprints();
+const { data: sprints } = await getSprintsWithId(projectId);
 
 sprints.map(createSprint);
 
